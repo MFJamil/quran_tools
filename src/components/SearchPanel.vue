@@ -73,7 +73,18 @@
     const emit = defineEmits(['searchUpdate']);
     let search = ref('');
     let searchUtils = new SearchUtils ();
-    let searchResult = ref<SearchResult>({});
+    let searchResult = ref<SearchResult>({
+            searchText: '',
+            qt:[],
+            qtFiltered:[],
+            filteredAyas:[],
+            words:[],
+            totalCount:0,
+            ayaCount:0,
+            group:[],
+            report:''
+
+    });
     let checkAll= ref(true);
 
     onMounted(()=>{

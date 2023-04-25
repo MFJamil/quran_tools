@@ -59,14 +59,14 @@ export default class SearchUtils{
         result.totalCount = 0;
         this.fillFilteredAyas(result);
         result.qtFiltered = [];
-        Object.keys(result.filteredAyas).forEach(sora=>{
+        Object.keys(result.filteredAyas).forEach((sora:any)=>{
             console.log("Working on Sora : " + sora);
             const sourceSora = result.qt.filter(s=>s.index===sora)[0];
             const targetSora = {...sourceSora};
             targetSora.aya=[];
             Object.keys(result.filteredAyas[sora]).forEach(aya=>{
                 console.log("Working on Aya : " + aya);
-                targetSora.aya.push(sourceSora.aya.filter(a=>a.index===aya)[0]);
+                targetSora.aya.push(sourceSora.aya.filter((a:any)=>a.index===aya)[0]);
 
             });
             result.qtFiltered.push(targetSora);
@@ -80,8 +80,7 @@ export default class SearchUtils{
 
 
 
-    public searchAll(searchVal:string){
-        if (searchVal==='') return fullQt; // Default Quran is full Text
+    public searchAll(searchVal:string):SearchResult{
         const qt = this.isClear(searchVal)?clearQt:fullQt;
         let totalCount = 0;
         const result:SearchResult ={

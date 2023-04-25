@@ -2,7 +2,7 @@
         <v-card>
             <v-card-actions>
                 <v-btn-toggle elevation="5" >
-                    <v-btn density="compact" elevation="3" color="primary" icon="mdi-unfold-more-horizontal" @click="soraList=searchResult.qtFiltered.map(so=>so.name)"></v-btn>
+                    <v-btn density="compact" elevation="3" color="primary" icon="mdi-unfold-more-horizontal" @click="soraList=searchResult?.qtFiltered.map(so=>so.name)"></v-btn>
                     <v-btn density="compact" elevation="3" color="primary" icon="mdi-unfold-less-horizontal" @click="soraList=[]"></v-btn>
                 </v-btn-toggle>
             
@@ -12,7 +12,7 @@
                     v-model="soraList"
                 >
                     <v-expansion-panel
-                        v-for="sora in searchResult.qtFiltered" 
+                        v-for="sora in searchResult?.qtFiltered" 
                         :key="sora.index"
                         color="primary"
                         :value="sora.name"
@@ -25,7 +25,7 @@
                                 v-for="aya in sora.aya" 
                                 :key="aya.index">
                                 <div                     
-                                    v-if="searchResult.searchText!==''" 
+                                    v-if="searchResult?.searchText!==''" 
                                     v-html="styleSearchText(sora,aya)"
                                     >
                                 </div>
@@ -71,7 +71,7 @@
         }
     );
     
-    let soraList = ref<Object>([]);
+    let soraList = ref<Object|undefined>([]);
     let soraBGClass = ref('expSoraBG_3');
     let ayaBGClass =  ref('ayaNum_g');
 
@@ -103,7 +103,7 @@
         
         
 
-        const searchWords =  props.searchResult.filteredAyas[sora.index][aya.index];
+        const searchWords =  props.searchResult?.filteredAyas[sora.index][aya.index];
         let ayaText = aya.text;
         searchWords.forEach((curWord:string) => {
             console.log("Replacing : " + curWord);
