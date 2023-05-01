@@ -1,12 +1,15 @@
 {
-  "homepage": "https://mfjamil.github.io/quran_tools/",
+  "homepage": "https://MFJamil.github.io/quran_tools/",
   "name": "quran_tools",
   "version": "0.0.0",
   "private": true,
+  "type": "module",
   "files": [
     "docs"
   ],
   "scripts": {
+    "dev:backend": "tsc src/dev/PdfParser.cts && node src/dev/PdfParser.cjs",
+    "dev:pdf2json": "node src/dev/Pdf2Json.js",
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview",
@@ -17,6 +20,9 @@
   "dependencies": {
     "@mdi/font": "7.0.96",
     "core-js": "^3.8.3",
+    "pdf-parse": "^1.1.1",
+    "pdf-to-excel": "^0.3.2",
+    "pdf2json": "^3.0.3",
     "roboto-fontface": "*",
     "vue": "^3.2.13",
     "vue-router": "^4.0.0",
@@ -25,6 +31,7 @@
   },
   "devDependencies": {
     "@types/node": "^18.11.9",
+    "@types/pdf-parse": "^1.1.1",
     "@types/webfontloader": "^1.6.35",
     "@vitejs/plugin-vue": "^3.0.3",
     "@vue/eslint-config-typescript": "^11.0.0",

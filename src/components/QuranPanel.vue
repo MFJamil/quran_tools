@@ -14,7 +14,14 @@
       </v-responsive>
     </v-container>
   </template>
-  
+    <script lang="ts">
+
+    export default{
+        name:'QuranPanel',
+        inheritAttrs: false,
+        
+    }
+  </script>
   <script lang="ts" setup>
     import searchPanel from './SearchPanel.vue';
     import expanisionPanel from './Expanision_Panel.vue';

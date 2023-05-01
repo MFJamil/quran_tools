@@ -51,7 +51,9 @@ export default class SearchUtils{
 // عَلَيْهِمْ 
 // غَيْرِ
 // ماء ئ
-
+// بقرة صفراء
+// الرحمن الرحيم
+// "ماء"
 
     public filterResult(result:SearchResult){
         
@@ -81,7 +83,16 @@ export default class SearchUtils{
 
 
     public searchAll(searchVal:string):SearchResult{
+        searchVal = searchVal.trim();
+        const multiWordMatch = searchVal.split(' ').length>1;
+        const exactMatch = searchVal.startsWith('"') && searchVal.endsWith('"');
         const qt = this.isClear(searchVal)?clearQt:fullQt;
+        searchVal = exactMatch?searchVal.substring(1,searchVal.length-1):searchVal;
+        console.log("Search text : " + searchVal + " Mutli Word search check : " + multiWordMatch + " exact Matching check : " + exactMatch);
+        for (const curWord of searchVal.split(' ')){
+            console.log(curWord);
+        }
+
         let totalCount = 0;
         const result:SearchResult ={
             searchText: searchVal,
@@ -98,12 +109,25 @@ export default class SearchUtils{
             const sora = {...qt[s]};
             sora.aya=[];
             for (let a=0;a<qt[s].aya.length;a++){
-                const words = this.extractAll(qt[s].aya[a].text,searchVal);
-                totalCount += words.length;
-                if (words.length!==0){
+                let words:string[]|null = [];
+                if (exactMatch){
+                    words = this.extractExact(qt[s].aya[a].text,searchVal,multiWordMatch);   
+                }else{
+                    if (multiWordMatch){
+                        
+                        for (const curWord of searchVal.split(' ')){
+                            const answer = this.extractAll(qt[s].aya[a].text,curWord);
+                            if (answer!==null) words = words.concat(answer);
+                        }
+
+                    }else{
+                        words = this.extractAll(qt[s].aya[a].text,searchVal);
+                    }
+                }
+                if ((words!==null)&&(words.length>0)){
+                    totalCount += words.length;
                     sora.aya.push(qt[s].aya[a]);
                     words.forEach(word =>{
-
                         result.words.push({'word': word,sora: +sora.index,aya: +qt[s].aya[a].index});
                         const grp = result.group.filter(g => g.word===word);
                         if (grp.length===0){
@@ -113,6 +137,7 @@ export default class SearchUtils{
                         }
                     });
                     result.ayaCount += 1;
+
                 }
             }
             if (sora.aya.length>0)
@@ -120,12 +145,15 @@ export default class SearchUtils{
             
         }
         result.totalCount = totalCount;
-        result.report = this.createReport(result);
-        console.log(result);
+        
+        //console.log(result);
         result.qtFiltered = result.qt;
+        result.qt = qt;
+        result.report = this.createReport(result);
         this.fillFilteredAyas(result);
         return result;
     }
+
     public isClear(wordVal:String){
         for (let i=0;i<wordVal.length;i++)
             if (wordVal.charCodeAt(i)>1610) return false;
@@ -166,7 +194,7 @@ export default class SearchUtils{
             + this.composeReportUnit(searchResult.ayaCount,this.ayas)
             + ' في '
             + this.composeReportUnit(searchResult.qtFiltered.length,this.soras);
-
+        console.log("Sora number is : " + searchResult.qtFiltered.length);
         return report;
         
     }
@@ -178,10 +206,32 @@ export default class SearchUtils{
     }
 
     private extractAll(sourceVal:string,searchVal:string){
+        searchVal = searchVal.trim();
+        
         if (searchVal.indexOf('\u0621')!==-1) {
             searchVal = searchVal.replaceAll("\u0621","[\u0621\u0626\u0624]");
         }
         const re = new RegExp("(" + searchVal + ")");
+        const wordList = sourceVal.split(" ").filter((elem, index)=>{
+            return re.test(elem);
+        })
+        return wordList;
+    }
+    private extractExact(sourceVal:string,searchVal:string,multi=false){
+        if (!multi)
+            return sourceVal.split(' ').filter(wrd => wrd===searchVal);
+        return sourceVal.match(searchVal);
+        /* Below Code did not work, neet to keep it for later check
+        if (searchVal.indexOf('\u0621')!==-1) {
+            searchVal = searchVal.replaceAll("\u0621","[\u0621\u0626\u0624]");
+        }*/
+        //const re = new RegExp( "/([^ء-ي]" + searchVal + "[^ء-ي])/g" );
+        //const re = new RegExp( searchVal,"gi");
+        
+        //console.log("Matching against : " + "/" + searchVal + "/g");
+        //return sourceVal.match("/([^ء-ي]" + searchVal + "[^ء-ي])/g");
+        //return sourceVal.match(re);
+        /*        
         const wordList = sourceVal.split(" ").filter((elem, index)=>{
             return re.test(elem);
         })
@@ -190,7 +240,7 @@ export default class SearchUtils{
             console.log(wordList);
         }
         return wordList;
+        */
     }
-
 
 }

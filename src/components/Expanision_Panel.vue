@@ -77,11 +77,15 @@
 
 
     onMounted(()=>{
+        /*
         window.onkeydown = (ev: KeyboardEvent): any => {
             handleKey(ev);
         }
+        */
 
     });
+
+    
 
     function handleKey(ev:any){
         let digitKey = ev.keyCode-48;
@@ -122,6 +126,7 @@
     }
 
     function composeAyaNumber(AyaNumber:string){
+        //return '\u06DD' + AyaNumber + '\u06DD';
         return '\uFD3F' + AyaNumber + '\uFD3E';
     }
 

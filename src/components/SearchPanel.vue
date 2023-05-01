@@ -10,14 +10,22 @@
                             variant="outlined"
                             label=""
                             append-inner-icon="mdi-magnify"
+                            prepend-icon="mdi-delete"
                             single-line
                             hide-details
                             v-model="search"
-                            
-                            @click="checkSearch"
+                            @keydown.enter="checkSearch"
+                            @click:append-inner="checkSearch"
+                            @click:prepend="doReset"
                         ></v-text-field>
                     </v-col>
                 </v-row>
+                <v-row v-show="search!==''" style="align-content: right;"><v-col>
+                    <v-btn icon @click="exactSearch=!exactSearch"><v-icon>{{ exactSearch?'mdi-comment-search':'mdi-comment-search-outline' }} </v-icon><v-tooltip
+                        activator="parent"
+                        location="start"
+                    >البحث على كلمة مطابقة</v-tooltip> </v-btn>
+                </v-col></v-row>
                 <v-row><v-col>
                     <v-chip 
                     v-for="grp in searchResult.group" 
@@ -39,13 +47,16 @@
                     
                     </v-chip>
                 </v-col></v-row>
-                <v-row v-show="searchResult.qt!==undefined "><v-col md="8">
-                    <v-checkbox color="primary"  v-model="checkAll">
-                        <template v-slot:label>
-                            <span class="checkText"  >أختيار كلي</span>
-                        </template>
-                    </v-checkbox> 
-                </v-col></v-row>                
+                <v-row v-show="searchResult.group?.length>0">
+                    <v-col md="4">
+                        <v-checkbox color="primary"  v-model="checkAll">
+                            <template v-slot:label>
+                                <span class="checkText"  >أختيار كلي</span>
+                            </template>
+                        </v-checkbox> 
+                    </v-col>
+
+                </v-row>                
 
                 <v-row><v-col>
                     <span class="checkText">{{ searchResult.report }}</span> 
@@ -66,12 +77,12 @@
 </script>
 
   <script lang="ts" setup>
-    import {ref,watch,onMounted} from 'vue'
-
+    import {ref,watch} from 'vue'
     import SearchUtils,{Group,Word,SearchResult} from '../service/SearchUtils';
 
     const emit = defineEmits(['searchUpdate']);
     let search = ref('');
+    let exactSearch = ref(false);
     let searchUtils = new SearchUtils ();
     let searchResult = ref<SearchResult>({
             searchText: '',
@@ -86,23 +97,43 @@
 
     });
     let checkAll= ref(true);
-
-    onMounted(()=>{
-
-    });
-
-    watch(()=>search.value,(newValue,oldValue)=>{
-        console.log("Got Search Updated , from '" + oldValue + "' to '" + newValue + "'");
-        searchResult.value = searchUtils.searchAll(newValue);
-        emit('searchUpdate',searchResult.value);
-
-    });
     watch(()=>checkAll.value,(newValue,oldValue)=>{
         for (let grp of searchResult.value.group) grp.selected = newValue ; 
         searchUtils.filterResult(searchResult.value);
         emit('searchUpdate',searchResult.value);
     });
+    watch(()=>exactSearch.value,(newValue,oldValue)=>{
+        let searText = search.value;
+        if (newValue){
+            search.value = '"' + searText + '"';
+        }else{
+            if ((searText.startsWith('"'))&&(searText.endsWith('"'))){
+                search.value = searText.substring(1,searText.length-1);
+                
+            }
+        } 
+        checkSearch();  
+    });
+    watch(()=>search.value,(newValue,oldValue)=>{
+        let searText = search.value;
+        if (searText.indexOf('"')!==-1){
+            if ((!searText.startsWith('"'))||(!searText.endsWith('"'))){
+                searText = searText.replaceAll('"','');
+                search.value = '"' + searText + '"';
+            }
+        }
+    });
 
+    function doReset(){
+        console.log( searchResult.value.qt);
+        search.value = '';
+        searchResult.value.group.length = 0;
+        searchResult.value.qtFiltered = searchResult.value.qt;
+        searchResult.value.report = '';
+        searchResult.value.searchText = '';
+        emit('searchUpdate',searchResult.value);
+
+    }
     function filterChanged(grp:Group){
         grp.selected = !grp.selected;
         console.log("Filter Changed called ......");
@@ -117,6 +148,11 @@
         for (var i=0;i<val.length;i++)
             bytes.push(val.charCodeAt(i).toString(16));
         console.dir(bytes);
+        if ((search.value!==undefined)&&(search.value!=='')&&(search.value.trim()!=='')){
+            searchResult.value = searchUtils.searchAll(search.value);
+            emit('searchUpdate',searchResult.value);
+        }
+
         
     }
 
