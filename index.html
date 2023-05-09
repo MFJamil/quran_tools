@@ -6,14 +6,164 @@
   <link rel="icon" href="/quran_tools/quran_32.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
+      /*
+      src: url('/fonts/hafs/UthmanTN_v2-0.ttf');  
+       */
+
+     @font-face {
+      font-family: naskh_normal;       
+      src: url('/quran_tools/fonts/naskh/UthmanTN_v2-0.ttf') format('truetype');  
+    }  
     @font-face {
+      font-family: naskh_bold;       
+      src: url('/quran_tools/fonts/naskh/UthmanTNB_v2-0.ttf') format('truetype');  
+    }  
+    @font-face {
+      font-family: naskh_dot;       
+      src: url('/quran_tools/fonts/naskh/KFGQPC Dot Font.otf');  
+    }  
+    @font-face {
+      font-family: naskh_outline;       
+      src: url('/quran_tools/fonts/naskh/Outlined v001.otf');  
+    }  
+
+    @font-face {
+      font-family: naskh_sindhi;       
+      src: url('/quran_tools/fonts/naskh/UthmanTSVer1.ttf');  
+    }  
+    @font-face {
+      font-family: naskh_sindhi_b;       
+      src: url('/quran_tools/fonts/naskh/UthmanTSBVer1.ttf');  
+    }  
+       
+    
+    @font-face {
+      font-family: an_regular;       
+      src: url('/quran_tools/fonts/an/KFGQPC AnRegular.ttf') format('truetype');  
+    }  
+    @font-face {
+      font-family: an_bold;       
+      src: url('/quran_tools/fonts/an/KFGQPC AnBold.ttf') format('truetype');  
+    }  
+    @font-face {
+      font-family: an_light;       
+      src: url('/quran_tools/fonts/an/KFGQPC AnLight.ttf') format('truetype');  
+    }  
+
+    @font-face {
+      font-family: ksa_regular;       
+      src: url('/quran_tools/fonts/ksa/KSARegular.ttf') format('truetype');  
+    }  
+    @font-face {
+      font-family: ksa_regular_b;       
+      src: url('/quran_tools/fonts/ksa/KSARegular_B.ttf') format('truetype');  
+    }  
+    @font-face {
+      font-family: ksa_extra;       
+      src: url('/quran_tools/fonts/ksa/KSAExtra.ttf') format('truetype');  
+    }  
+    @font-face {
+      font-family: ksa_heading;       
+      src: url('/quran_tools/fonts/ksa/KSAHeading.ttf') format('truetype');  
+    }  
+    @font-face {
+      font-family: ksa_heavy;       
+      src: url('/quran_tools/fonts/ksa/KSAHeavy.ttf') format('truetype');  
+    }  
+
+              
+    @font-face {
+      font-family: kufi_stylistic;       
+      src: url('/quran_tools/fonts/kufi/KFGQPC KufiStyV13.ttf') format('truetype');  
+    }  
+    @font-face {
+      font-family: kufi_ext;       
+      src: url('/quran_tools/fonts/kufi/KFGQPC KufiExtV11.ttf') format('truetype');  
+    }  
+
+    @font-face {
+      font-family: hafs_1;       
+      src: url('/quran_tools/fonts/hafs/UthmanicHafs1 Ver13.ttf') format('truetype');  
+    }  
+
+    @font-face {
+      font-family: hafs_1b;       
+      src: url('/quran_tools/fonts/hafs/UthmanicHafs1B Ver13.ttf') format('truetype');  
+    }  
+
+    @font-face {
+      font-family: hafs_20;       
+      src: url('/quran_tools/fonts/hafs/UthmanicHafs_V20.eot');
+      src: url('/quran_tools/fonts/hafs/UthmanicHafs_V20.ttf') format('truetype'),
+      url('/quran_tools/fonts/hafs/UthmanicHafs_V20.woff2') format('woff2'), 
+      url('/quran_tools/fonts/hafs/UthmanicHafs_V20.woff') format('woff'),
+      url('/quran_tools/fonts/hafs/UthmanicHafs_V20.otf') format('opentype');       
+    }  
+    @font-face {
+      /*src: url('/fonts/hafs/hafs_regular.ttf') format('truetype'),*/
+      font-family: hafs_reqular;       
+       src: url('/quran_tools/fonts/hafs/hafs_regular.eot');
+       src: url('/quran_tools/fonts/hafs/hafs_regular.woff2') format('woff2'), 
+        url('/quran_tools/fonts/hafs/hafs_regular.woff') format('woff'),
+        url('/quran_tools/fonts/hafs/hafs_regular.otf') format('opentype');       
+
+      }  
+      @font-face {
+      /*src: url('/fonts/hafs/hafs_regular.ttf') format('truetype'),*/
       font-family: hafs;       
-      src: url('/quran_tools/fonts/hafs/hafs_regular.otf');  
-    }    
+       src: url('/quran_tools/fonts/hafs/test/hafs.eot');
+       src: url('/quran_tools/fonts/hafs/test/hafs.woff2') format('woff2'), 
+        url('/quran_tools/fonts/hafs/test/hafs.woff') format('woff'),
+        url('/quran_tools/fonts/hafs/test/hafs.otf') format('opentype');       
+
+      }  
+
+      @font-face {
+      font-family: hafs_nt;       
+       src: url('/fonts/hafs/HafsNastaleeqVer10.ttf') format('truetype');  
+    }  
+
+
+
+    @font-face {
+      font-family: qaloun;       
+       src: url('/quran_tools/fonts/qaloun/UthmanicQaloun V21.ttf') format('truetype');  
+    }  
+    @font-face {
+      font-family: warsh;       
+       src: url('/quran_tools/fonts/warsh/UthmanicWarsh V21.ttf') format('truetype');  
+    }  
+    @font-face {
+      font-family: bazzi;       
+       src: url('/quran_tools/fonts/bazzi/UthmanicBazzi V20.ttf') format('truetype');  
+    }  
+    @font-face {
+      font-family: qunbul;       
+       src: url('/quran_tools/fonts/qunbul/UthmanicQunbul V20.ttf') format('truetype');  
+    }  
+    @font-face {
+      font-family: douri;       
+       src: url('/quran_tools/fonts/douri/UthmanicDouri V20.ttf') format('truetype');  
+    }  
+    @font-face {
+      font-family: sousi;       
+       src: url('/quran_tools/fonts/sousi/UthmanicSousi V20.ttf') format('truetype');  
+    }  
+    @font-face {
+      font-family: shuba;       
+       src: url('/quran_tools/fonts/shuba/UthmanicShuba V20.ttf') format('truetype');  
+    }  
+
+    
+
+    
+
+    
+
 
   </style>
   <title>Quran Tools </title>
-  <script type="module" crossorigin src="/quran_tools/assets/index.57a09d94.js"></script>
+  <script type="module" crossorigin src="/quran_tools/assets/index.d1a5d509.js"></script>
   <link rel="stylesheet" href="/quran_tools/assets/index.67820668.css">
 </head>
 
